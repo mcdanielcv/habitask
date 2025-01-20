@@ -1,4 +1,4 @@
-package Dto;
+package com.habitask.Dto;
 
 import lombok.Getter;
 import lombok.Setter;

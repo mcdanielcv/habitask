@@ -1,6 +1,6 @@
-package repository;
+package com.habitask.repository;
 
-import model.User;
+import com.habitask.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

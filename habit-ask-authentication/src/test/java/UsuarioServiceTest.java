@@ -1,19 +1,12 @@
-import Dto.UserDTO;
-import errors.UserNotFoundException;
-import model.User;
+import com.habitask.model.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import repository.UserRepository;
-import service.UserService;
-
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import com.habitask.repository.UserRepository;
+import com.habitask.service.UserService;
 
 public class UsuarioServiceTest {
 

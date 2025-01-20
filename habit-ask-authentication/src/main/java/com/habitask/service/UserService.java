@@ -1,14 +1,15 @@
-package service;
+package com.habitask.service;
 
-import Dto.UserDTO;
-import errors.InvalidCredentialsException;
-import errors.UserNotFoundException;
-import model.User;
+import com.habitask.Dto.UserDTO;
+import com.habitask.errors.InvalidCredentialsException;
+import com.habitask.errors.UserNotFoundException;
+import com.habitask.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
-import repository.UserRepository;
+import com.habitask.repository.UserRepository;
 
 import java.util.Optional;
 
@@ -45,5 +46,17 @@ public class UserService {
             throw new InvalidCredentialsException("Credenciales inválidas");
         }
         return true;
+    }
+
+    // Método para obtener el usuario autenticado
+    public UserDTO getAuthenticatedUser() {
+        // Obtener el usuario autenticado desde el contexto de Spring Security
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (principal instanceof org.springframework.security.core.userdetails.User) {
+            return (UserDTO) principal; // Devuelve el objeto User si está autenticado
+        } else {
+            return null; // Si no está autenticado, devuelve null
+        }
     }
 }

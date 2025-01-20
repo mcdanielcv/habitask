@@ -1,13 +1,16 @@
-package controller;
+package com.habitask.controller;
 
+import com.habitask.Dto.UserDTO;
+import com.habitask.ResponseVo;
+import com.habitask.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import service.UserService;
+import org.springframework.web.bind.annotation.*;
+import com.habitask.service.UserService;
 
 @RestController
 @RequestMapping("/auth")
@@ -33,4 +36,10 @@ public class AuthController {
         // Aquí manejarías el cierre de sesión
         return ResponseEntity.ok("Sesión cerrada exitosamente");
     }
+
+    @GetMapping("/autenticateUser")
+    public UserDTO getAuthenticatedUser(){
+        return userService.getAuthenticatedUser();
+    }
+
 }

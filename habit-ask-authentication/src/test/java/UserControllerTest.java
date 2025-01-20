@@ -1,17 +1,12 @@
 
-import Dto.UserDTO;
-import controller.UserController;
-import model.User;
+import com.habitask.controller.UserController;
+import com.habitask.model.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.http.ResponseEntity;
-import service.UserService;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import com.habitask.service.UserService;
 
 public class UserControllerTest {
 

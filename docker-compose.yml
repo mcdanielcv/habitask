@@ -14,10 +14,18 @@ services:
 
   user-authentication:
     build:
-      context: ./  # Indica que Docker debe usar el Dockerfile en el directorio actual
-      dockerfile: habit-ask-authentication/Dockerfile  # Especifica el Dockerfile si no se llama simplemente "Dockerfile"
-    container_name: habit-ask-authentication
+      context: ./  # Ruta base
+      dockerfile: habit-ask-authentication/Dockerfile  # Dockerfile correcto
     ports:
       - "8080:8080"
+    depends_on:
+      - db
+
+  user-tasks:
+    build:
+      context: ./  # Ruta base
+      dockerfile: habit-ask-tasks/Dockerfile  # Dockerfile correcto
+    ports:
+      - "8081:8081"
     depends_on:
       - db
