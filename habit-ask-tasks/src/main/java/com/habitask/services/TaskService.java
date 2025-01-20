@@ -1,8 +1,10 @@
 package com.habitask.services;
 
 import com.habitask.Dto.UserDTO;
+import com.habitask.model.Notification;
 import com.habitask.model.Task;
 import com.habitask.repository.TaskRepository;
+import com.habitask.service.NotificationService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,8 @@ public class TaskService {
     private TaskRepository taskRepository;
     @Autowired
     private UserApiService userService; // Servicio que obtiene el usuario autenticado
+    @Autowired
+    private NotificationService notificationService;
 
     public Task createTask(Task task) {
         UserDTO currentUser = userService.getAuthenticatedUser();
@@ -43,6 +47,21 @@ public class TaskService {
         Task task = validateTaskAssignment(id);
         task.setCompleted(true);
         task.setCompletedAt(new Date());
+
+        // Notificar al creador de la tarea
+        Notification notification = new Notification();
+
+        //obtener usuario dado el id
+        UserDTO userDtoCreado= new UserDTO(1L,"Mario","mariocv.mh@gmail.com") ;
+        //
+
+        notification.setRecipient(userDtoCreado.getEmail());
+        notification.setSubject("Tarea completada");
+        notification.setMessage("La tarea '" + task.getTitle() + "' ha sido completada.");
+        notification.setTimestamp(new Date());
+
+        notificationService.sendNotification(notification);
+
         return taskRepository.save(task);
     }
 
