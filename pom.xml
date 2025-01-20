@@ -7,14 +7,14 @@
   <version>1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
-  <name>habitask</name>
+  <name>habit-ask</name>
   <url>http://maven.apache.org</url>
 
   <modules>
-    <module>habitask-authentication</module>
-    <module>habitask-tasks</module>
-    <module>habitask-notifications</module>
-    <module>habitask-common</module>
+    <module>habit-ask-authentication</module>
+    <module>habit-ask-tasks</module>
+    <module>habit-ask-notifications</module>
+    <module>habit-ask-common</module>
   </modules>
 
   <properties>

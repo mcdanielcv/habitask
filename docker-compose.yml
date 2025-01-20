@@ -1,0 +1,23 @@
+services:
+  db:
+    image: mysql:8.0
+    restart: always
+    container_name: db
+    environment:
+      MYSQL_ROOT_PASSWORD: sasa
+      MYSQL_DATABASE: habitask_db
+      MYSQL_PASSWORD: sasa
+    ports:
+      - "3307:3307"
+    volumes:
+      - ./mysql:/var/lib/mysql
+
+  user-authentication:
+    build:
+      context: ./  # Indica que Docker debe usar el Dockerfile en el directorio actual
+      dockerfile: habit-ask-authentication/Dockerfile  # Especifica el Dockerfile si no se llama simplemente "Dockerfile"
+    container_name: habit-ask-authentication
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
