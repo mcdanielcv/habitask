@@ -11,10 +11,10 @@
   <url>http://maven.apache.org</url>
 
   <modules>
+    <module>habit-ask-common</module>
+    <module>habit-ask-notifications</module>
     <module>habit-ask-authentication</module>
     <module>habit-ask-tasks</module>
-    <module>habit-ask-notifications</module>
-    <module>habit-ask-common</module>
   </modules>
 
   <properties>

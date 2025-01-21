@@ -1,12 +1,11 @@
-
 import com.habitask.controller.UserController;
 import com.habitask.model.User;
+import com.habitask.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import com.habitask.service.UserService;
 
 public class UserControllerTest {
 

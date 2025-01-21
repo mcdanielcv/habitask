@@ -23,10 +23,12 @@ public class User implements Serializable {
     @NotBlank(message = "El nombre no puede estar vacío")
     @Size(max = 30, message = "El nombre no puede exceder 30 caracteres")
     private String name;
+
     @Column(nullable = false, unique = true)
     @NotBlank(message = "El email no puede estar vacío")
     @Email(message = "El email debe estar bien formado")
     private String email;
+
     @Column(nullable = false)
     @NotBlank(message = "La contraseña no puede estar vacía")
     @Pattern(
@@ -34,6 +36,7 @@ public class User implements Serializable {
             message = "La contraseña debe tener al menos 8 caracteres, incluyendo una letra mayúscula, una minúscula, un número y un carácter especial"
     )
     private String password;
+
     @Column(nullable = false)
     private Date creationDate;
 

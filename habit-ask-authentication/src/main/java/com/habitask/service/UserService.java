@@ -4,21 +4,24 @@ import com.habitask.Dto.UserDTO;
 import com.habitask.errors.InvalidCredentialsException;
 import com.habitask.errors.UserNotFoundException;
 import com.habitask.model.User;
+import com.habitask.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
-import com.habitask.repository.UserRepository;
 
 import java.util.Optional;
 
+@Slf4j
 @Service
 @Validated
 public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
     @Autowired
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -42,6 +45,8 @@ public class UserService {
     public boolean validateCredentials(String email, String password) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UserNotFoundException("Usuario con email no encontrado"));
+
+        log.info("contrasenaDB->"+user.getPassword()+"-ingresada->"+password+"-codificada->"+passwordEncoder.encode(password));
         if (!passwordEncoder.matches(password, user.getPassword())) {
             throw new InvalidCredentialsException("Credenciales inválidas");
         }

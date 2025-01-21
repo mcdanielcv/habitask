@@ -1,12 +1,12 @@
 import com.habitask.model.User;
+import com.habitask.repository.UserRepository;
+import com.habitask.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import com.habitask.repository.UserRepository;
-import com.habitask.service.UserService;
 
 public class UsuarioServiceTest {
 

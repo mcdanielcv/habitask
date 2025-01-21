@@ -1,11 +1,9 @@
 package com.habitask.services;
 
 import com.habitask.Dto.UserDTO;
-
 import com.habitask.model.Notification;
 import com.habitask.model.Task;
 import com.habitask.repository.TaskRepository;
-
 import com.habitask.service.EmailNotificationService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
