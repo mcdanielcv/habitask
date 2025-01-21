@@ -7,12 +7,10 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 @Service
-public class EmailNotificationService implements NotificationService{
+public class EmailNotificationService{
     @Autowired
-    private  JavaMailSender mailSender;
+    private JavaMailSender mailSender;
 
-
-    @Override
     public void sendNotification(Notification notification) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(notification.getRecipient());

@@ -19,4 +19,9 @@ public class UserApiService {
         String url = CLIENT_PERSON_URL + "/user/login/";
         return restTemplate.getForObject(url, UserDTO.class);
     }
+
+    public UserDTO getUserDtoById(Long id) {
+        String url = CLIENT_PERSON_URL + "/api/users/"+id;
+        return restTemplate.getForObject(url, UserDTO.class);
+    }
 }

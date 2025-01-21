@@ -12,6 +12,15 @@ services:
     volumes:
       - ./mysql:/var/lib/mysql
 
+  user-notifications:
+    build:
+      context: ./  # Ruta base
+      dockerfile: habit-ask-notifications/Dockerfile  # Dockerfile correcto
+    ports:
+      - "8082:8082"
+    depends_on:
+      - db
+
   user-authentication:
     build:
       context: ./  # Ruta base
@@ -29,12 +38,4 @@ services:
       - "8081:8081"
     depends_on:
       - db
-
-  user-notifications:
-    build:
-      context: ./  # Ruta base
-      dockerfile: habit-ask-notifications/Dockerfile  # Dockerfile correcto
-    ports:
-      - "8082:8082"
-    depends_on:
-      - db
+      - user-notifications

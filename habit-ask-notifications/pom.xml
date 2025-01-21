@@ -51,7 +51,6 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <mainClass>com.habitask.NotificationApplication</mainClass>
-                    <layout>JAR</layout>
                 </configuration>
             </plugin>
         </plugins>

@@ -21,13 +21,19 @@ public class AuthController {
     private UserService userService;
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestParam String email, @RequestParam String password) {
-        boolean isValid = userService.validateCredentials(email, password);
-        if (isValid) {
-            return ResponseEntity.ok("Inicio de sesión exitoso");
-        } else {
-            return ResponseEntity.status(401).body("Credenciales inválidas");
+    public ResponseEntity<?> login(@RequestParam String email, @RequestParam String password) {
+        try {
+            boolean isValid = userService.validateCredentials(email, password);
+            if (isValid) {
+                String token = "XSADASDASD";//jwtTokenProvider.generateToken(user.getEmail());
+                return ResponseEntity.status(HttpStatus.OK).body(new ResponseVo(true, "Inicio de Sesion Exitoso", token));
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ResponseVo(false, "Credenciales Invalidas"));
+            }
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ResponseVo(false, e.getMessage()));
         }
+
     }
 
     // Endpoint para logout (simulación)

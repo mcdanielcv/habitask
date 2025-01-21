@@ -1,25 +1,35 @@
 package com.habitask.services;
 
 import com.habitask.Dto.UserDTO;
+
 import com.habitask.model.Notification;
 import com.habitask.model.Task;
 import com.habitask.repository.TaskRepository;
-import com.habitask.service.NotificationService;
+
+import com.habitask.service.EmailNotificationService;
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 
-
+@Slf4j
 @Service
 public class TaskService {
-    @Autowired
-    private TaskRepository taskRepository;
-    @Autowired
-    private UserApiService userService; // Servicio que obtiene el usuario autenticado
-    @Autowired
-    private NotificationService notificationService;
+
+    private final TaskRepository taskRepository;
+
+    private final UserApiService userService; // Servicio que obtiene el usuario autenticado
+
+    private final EmailNotificationService notificationService;
+
+    public TaskService(TaskRepository taskRepository,
+                       UserApiService userService,
+                       EmailNotificationService notificationService) {
+        this.taskRepository = taskRepository;
+        this.userService = userService;
+        this.notificationService = notificationService;
+    }
 
     public Task createTask(Task task) {
         UserDTO currentUser = userService.getAuthenticatedUser();
@@ -52,7 +62,9 @@ public class TaskService {
         Notification notification = new Notification();
 
         //obtener usuario dado el id
-        UserDTO userDtoCreado= new UserDTO(1L,"Mario","mariocv.mh@gmail.com") ;
+        UserDTO userDtoCreado= userService.getUserDtoById(task.getIdUserCreator());
+        log.info("markAsCompleted::UserDTO"+userDtoCreado.getId()+"-mail->"+userDtoCreado.getEmail());
+
         //
 
         notification.setRecipient(userDtoCreado.getEmail());
@@ -61,7 +73,7 @@ public class TaskService {
         notification.setTimestamp(new Date());
 
         notificationService.sendNotification(notification);
-
+        log.info("markAsCompleted::notificacion enviada");
         return taskRepository.save(task);
     }
 
