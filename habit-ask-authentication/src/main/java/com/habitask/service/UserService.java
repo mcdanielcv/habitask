@@ -7,6 +7,7 @@ import com.habitask.model.User;
 import com.habitask.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -30,10 +31,10 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public Optional<UserDTO> getUserByEmail(String email) {
+    public Optional<User> getUserByEmail(String email) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UserNotFoundException("User no encontrado"));
-        return Optional.of(new UserDTO(user.getId(), user.getName(), user.getEmail()));
+        return Optional.of(user);
     }
 
     public Optional<UserDTO> getUserById(Long id) {
@@ -46,22 +47,21 @@ public class UserService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UserNotFoundException("Usuario con email no encontrado"));
 
-        log.info("contrasenaDB->"+user.getPassword()+"-ingresada->"+password+"-codificada->"+passwordEncoder.encode(password));
-        if (!passwordEncoder.matches(password, user.getPassword())) {
+        log.info("contrasenaDB->"+user.getPassword()+"-ingresada->"+password+"-codificada->");
+        if (!user.getPassword().equalsIgnoreCase(passwordEncoder.encode(password))) {
             throw new InvalidCredentialsException("Credenciales inválidas");
         }
         return true;
     }
 
     // Método para obtener el usuario autenticado
-    public UserDTO getAuthenticatedUser() {
+    public String getAuthenticatedUser() {
         // Obtener el usuario autenticado desde el contexto de Spring Security
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        if (principal instanceof org.springframework.security.core.userdetails.User) {
-            return (UserDTO) principal; // Devuelve el objeto User si está autenticado
-        } else {
-            return null; // Si no está autenticado, devuelve null
+        if (authentication != null && authentication.isAuthenticated() && !"anonymousUser".equals(authentication.getPrincipal())) {
+            return authentication.getName();
         }
+        return null; // No hay usuario autenticado
     }
 }

@@ -7,7 +7,6 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
-
 import java.io.Serializable;
 import java.util.Date;
 
@@ -40,7 +39,7 @@ public class User implements Serializable {
     @Column(nullable = false)
     private Date creationDate;
 
-    public User() {
-        this.creationDate = new Date();
+    public User(){
+
     }
 }

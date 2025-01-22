@@ -22,10 +22,10 @@ public class UserControllerTest {
 
     @Test
     void registerUser_successful() {
-        User user = new User();
+        /*User user = new User();
         user.setName("Test User");
         user.setEmail("test@example.com");
-        user.setPassword("Password123!");
+        user.setPassword("Password123!");*/
 
         /*UserDTO usuarioDTO = new UserDTO(1L, "Test User", "test@example.com");
 

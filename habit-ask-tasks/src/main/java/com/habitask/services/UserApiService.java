@@ -16,7 +16,7 @@ public class UserApiService {
     private static final String CLIENT_PERSON_URL = "http://user-authentication:8080";
 
     public UserDTO getAuthenticatedUser() {
-        String url = CLIENT_PERSON_URL + "/autenticateUser/auth";
+        String url = CLIENT_PERSON_URL + "/auth/autenticateUser";
         return restTemplate.getForObject(url, UserDTO.class);
     }
 

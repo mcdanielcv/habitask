@@ -26,10 +26,10 @@ public class UsuarioServiceTest {
 
     @Test
     void registerUser_successful() {
-        User user = new User();
-        user.setName("Test User");
-        user.setEmail("test@example.com");
-        user.setPassword("Password123!");
+       // User user = new User();
+       // user.setName("Test User");
+       // user.setEmail("test@example.com");
+       // user.setPassword("Password123!");
        /* when(passwordEncoder.encode(anyString())).thenReturn("encodedPassword");
         when(userRepository.save(any(User.class))).thenReturn(user);
         User resultado = userService.registerUser(user);
@@ -51,9 +51,9 @@ public class UsuarioServiceTest {
 
     @Test
     void validateCredentials_successful() {
-        User user = new User();
-        user.setEmail("test@example.com");
-        user.setPassword("encodedPassword");
+       // User user = new User();
+        //user.setEmail("test@example.com");
+        //user.setPassword("encodedPassword");
        // when(userRepository.findByEmail("test@example.com")).thenReturn(Optional.of(user));
         //when(passwordEncoder.matches("Password123!", "encodedPassword")).thenReturn(true);
        // boolean resultado = userService.validateCredentials("test@example.com", "Password123!");
