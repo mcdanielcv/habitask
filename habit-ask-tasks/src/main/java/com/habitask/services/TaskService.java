@@ -29,30 +29,30 @@ public class TaskService {
         this.notificationService = notificationService;
     }
 
-    public Task createTask(Task task) {
-        UserDTO currentUser = userService.getAuthenticatedUser();
+    public Task createTask(Task task, String token) {
+        UserDTO currentUser = userService.getAuthenticatedUser(token);
         task.setIdUserCreator(currentUser.getId());
         task.setCreatedAt(new Date());
         return taskRepository.save(task);
     }
 
-    public Task updateTask(Long id, Task updatedTask) throws Exception{
-        Task task = validateTaskOwnership(id);
+    public Task updateTask(Long id, Task updatedTask , String token) throws Exception{
+        Task task = validateTaskOwnership(id, token );
         task.setTitle(updatedTask.getTitle());
         task.setIdUserAssignee(updatedTask.getIdUserAssignee());
         return taskRepository.save(task);
     }
 
-    public void deleteTask(Long id) throws Exception{
-        Task task = validateTaskOwnership(id);
+    public void deleteTask(Long id , String token) throws Exception{
+        Task task = validateTaskOwnership(id, token);
         if (task.isCompleted()) {
             throw new IllegalStateException("Cannot delete completed tasks.");
         }
         taskRepository.delete(task);
     }
 
-    public Task markAsCompleted(Long id) throws Exception {
-        Task task = validateTaskAssignment(id);
+    public Task markAsCompleted(Long id, String token) throws Exception {
+        Task task = validateTaskAssignment(id, token);
         task.setCompleted(true);
         task.setCompletedAt(new Date());
 
@@ -75,20 +75,20 @@ public class TaskService {
         return taskRepository.save(task);
     }
 
-    private Task validateTaskOwnership(Long id) throws Exception{
+    private Task validateTaskOwnership(Long id, String token) throws Exception{
         Task task = taskRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Task not found"));
-        UserDTO currentUser = userService.getAuthenticatedUser();
+        UserDTO currentUser = userService.getAuthenticatedUser(token);
         if (!task.getIdUserCreator().equals(currentUser.getId())) {
             throw new RuntimeException("You can only modify your own tasks.");
         }
         return task;
     }
 
-    private Task validateTaskAssignment(Long id) throws Exception {
+    private Task validateTaskAssignment(Long id, String token) throws Exception {
         Task task = taskRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Task not found"));
-        UserDTO currentUser = userService.getAuthenticatedUser();
+        UserDTO currentUser = userService.getAuthenticatedUser(token);
         if (!task.getIdUserAssignee().equals(currentUser.getId())) {
             throw new RuntimeException("You can only complete tasks assigned to you.");
         }

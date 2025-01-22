@@ -1,5 +1,6 @@
 package com.habitask.controller;
 
+
 import com.habitask.Dto.UserTaskDto;
 import com.habitask.ResponseVo;
 import com.habitask.model.Task;
@@ -25,9 +26,11 @@ public class TaskController {
     private UserTaskService userTaskService;
 
     @PostMapping
-    public ResponseEntity<?> createTask(@RequestBody Task task) {
-        try {
-        Task createdTask = taskService.createTask(task);
+    public ResponseEntity<?> createTask(@RequestBody Task task,
+                                        @RequestHeader("Authorization") String authorizationHeader) {
+        try {// Extraer el token del encabezado
+            String token = authorizationHeader.replace("Bearer ", "");
+        Task createdTask = taskService.createTask(task, token);
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body(new ResponseVo(true, "Tarea Ingresada", createdTask));
         } catch (Exception e) {
@@ -37,10 +40,13 @@ public class TaskController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateTask(@PathVariable Long id, @RequestBody Task updatedTask) {
+    public ResponseEntity<?> updateTask(@PathVariable Long id,
+                                        @RequestBody Task updatedTask,
+                                        @RequestHeader("Authorization") String authorizationHeader) {
         Task task = null;
         try {
-            task = taskService.updateTask(id, updatedTask);
+            String token = authorizationHeader.replace("Bearer ", "");
+            task = taskService.updateTask(id, updatedTask,token);
             return ResponseEntity.status(HttpStatus.OK)
                     .body(new ResponseVo(true, "Tarea Actualizada", task));
         } catch (Exception e) {
@@ -51,9 +57,11 @@ public class TaskController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteTask(@PathVariable Long id) {
+    public ResponseEntity<?> deleteTask(@PathVariable Long id,
+    @RequestHeader("Authorization") String authorizationHeader) {
         try {
-            taskService.deleteTask(id);
+            String token = authorizationHeader.replace("Bearer ", "");
+            taskService.deleteTask(id, token);
             return ResponseEntity.status(HttpStatus.OK)
                     .body(new ResponseVo(true, "Tarea Eliminada"));
         } catch (Exception e) {
@@ -63,9 +71,11 @@ public class TaskController {
     }
 
     @PatchMapping("/{id}/complete")
-    public ResponseEntity<?> completeTask(@PathVariable Long id) {
+    public ResponseEntity<?> completeTask(@PathVariable Long id,
+                                          @RequestHeader("Authorization") String authorizationHeader) {
         try {
-            Task task = taskService.markAsCompleted(id);
+            String token = authorizationHeader.replace("Bearer ", "");
+            Task task = taskService.markAsCompleted(id, token);
             return ResponseEntity.status(HttpStatus.OK)
                     .body(new ResponseVo(true, "Tarea Completada", task));
         } catch (Exception e) {
